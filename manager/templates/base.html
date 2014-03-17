@@ -1,0 +1,14 @@
+<html>
+  <head>
+    {% if title %}
+    <title>{{title}} - biosurfit SA</title>
+    {% else %}
+    <title>assay manager</title>
+    {% endif %}
+  </head>
+  <body>
+    <div>Assay manager: <a href="/index">Home</a></div>
+    <hr>
+    {% block content %}{% endblock %}
+  </body>
+</html>

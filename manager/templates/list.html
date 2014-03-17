@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Assay manager database contents</h1>
+{% for data in assay_data %}
+<div><p>{{data.host}}  {{data.date}} {{data.assay_id}}</p></div>
+{% endfor %}
+{% endblock %}
