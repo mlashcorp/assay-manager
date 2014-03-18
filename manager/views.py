@@ -2,6 +2,8 @@ from flask import render_template, flash, redirect, request
 from manager import app, db, models
 import datetime
 import traceback, sys , re
+import io, node_manager
+
 
 @app.route('/')
 @app.route('/index')
@@ -11,10 +13,23 @@ def index():
         assay_data = data)
 
 
+@app.route('/process_data',methods = ['POST'])
+def process_data():
+  expected_parameters= ["experiments","sw"]  
+    
+  #Validate parameters
+  for parameter in expected_parameters:
+    if not parameter in request.form:
+      return "Wrong parameters\n",400
+
+  experiment_list = request.form.get("experiments")
+  versions = request.form.get("sw")
+  node_manager.deploy_workload(experiment_list.split(','),versions.split(','))
+  
+  return "OK",201
   
 @app.route('/upload_data', methods = ['POST'])
-def upload_data():
-    
+def upload_data():  
     expected_parameters= ["host","versions","id"]
     #Validate parameters
     for parameter in expected_parameters:
