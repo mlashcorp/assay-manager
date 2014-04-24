@@ -1,0 +1,21 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+{% block content %}
+{% include 'flash.html' %}
+
+<div class="span8">
+<div class="well">
+      {% from "_formhelpers.html" import render_field %}
+  <form class="form-horizontal" action="/register" method="post" name="post">
+
+        <dl>
+        {{ render_field(form.assay_id) }}
+        {{ render_field(form.assay_number) }}
+        {{ render_field(form.assay_date) }}
+        {{ render_field(form.jc_sample) }}
+        </dl>
+  <p><input class="btn btn-primary" type=submit value=Register>
+    </form>
+</div>
+</div>
+{% endblock %}

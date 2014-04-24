@@ -1,0 +1,38 @@
+from app import app, db, models
+from flask import render_template, request, flash, redirect, url_for
+from forms import RegistrationForm
+from datetime import datetime
+import sys,traceback
+
+@app.route('/')  
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm(request.form)
+    if request.method == 'POST' and form.validate():
+        assay_id = form.assay_id.data
+        assay_number = form.assay_number.data
+        date = form.assay_date.data
+        jc_id = form.jc_sample.data
+        serial_number = str(assay_id)+"_"+str(assay_number)+"_"+str(date.month).zfill(2)+"-"+str(date.day).zfill(2)+"_"+str(jc_id)
+                
+        
+        #Add to DB
+        try:
+            data = models.AssayJCData(id=serial_number,assay_id=assay_id,\
+                                   assay_number=int(assay_number),\
+                                   assay_date=date,jc_id=jc_id)
+            db.session.add(data)
+            db.session.commit()
+        except:
+            print "Exception in user code:"
+            print '-'*60
+            traceback.print_exc(file=sys.stdout)
+            print '-'*60
+            return "Error inserting in Database. What are you doing man??\n",409
+    
+    
+        flash('Assay data logged as: '+str(serial_number))
+        return redirect(url_for('register'))
+    return render_template('register.html',form = form)
+  
+  
