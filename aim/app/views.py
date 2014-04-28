@@ -5,7 +5,6 @@ from datetime import datetime
 import sys,traceback, os
 from werkzeug.utils import secure_filename
 from get_jc_results import *
-from gcm import GCM
 
 ALLOWED_EXTENSIONS = set(['csv'])
 API_KEY = "AIzaSyCuf4WGy_cr9ldApn5oVy4FKfz7iCixWbg"
@@ -13,11 +12,6 @@ API_KEY = "AIzaSyCuf4WGy_cr9ldApn5oVy4FKfz7iCixWbg"
 @app.route('/')
 @app.route('/index')
 def index():
-    gcm = GCM(API_KEY)
-    data = {'param1': 'value1', 'param2': 'value2'}
-    # JSON request
-    reg_ids = ['12', '34', '69']
-    response = gcm.json_request(registration_ids=reg_ids, data=data)
     return redirect(url_for('register'))
 
 def allowed_file(filename):
